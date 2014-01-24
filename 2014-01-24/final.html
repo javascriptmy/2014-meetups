@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome To Javascript.my</title>
+    <meta charset="utf-8">
+    <script src="static/react.min.js"></script>
+    <script src="static/JSXTransformer.js"></script>
+</head>
+<body>
+<div id="todo"></div>
+
+<script type="text/jsx">
+/** @jsx React.DOM */
+
+TodoList = React.createClass({
+
+    getInitialState : function () {
+        return { todo : [] };
+    },
+
+    handleTodoAdd : function (newTodo) {
+        var todoList = this.state.todo;
+
+        todoList.push(newTodo);
+        
+        this.setState({ todo : todoList });
+    },
+
+    render : function () {
+        var todoNodes = this.state.todo;
+        
+        todoNodes = todoNodes.map(function (item) {
+            return <li>{item}</li>;
+        });
+
+        return (
+            <div>
+                <h1>This is a TODO List</h1>
+                <ul>
+                    {todoNodes}
+                </ul>
+                <TodoForm onTodoAdd={this.handleTodoAdd} />
+            </div>
+        );
+    }
+});
+
+TodoForm = React.createClass({
+    handleKeyDown : function (event) {
+        var newTodo;
+
+        if (event.which !== 13 /* ENTER_KEY */) {
+            return;
+        }
+
+        newTodo = this.refs.newTodo.getDOMNode().value.trim();
+
+        if (newTodo) {
+            this.props.onTodoAdd(newTodo);
+        }
+
+        // Reset the todo list
+        this.refs.newTodo.getDOMNode().value = '';
+        return false; // prevent bubbling
+    },
+
+    render : function () {
+        return (
+            <div>
+                <form>
+                    <input ref="newTodo" onKeyDown={this.handleKeyDown} type="text" placeholder="Add a todo here and press ENTER" />
+                </form>
+            </div>
+        );
+    }
+});
+
+React.renderComponent(
+    <TodoList />,
+    document.getElementById('todo')
+);
+</script>
+</body>
+</html>
