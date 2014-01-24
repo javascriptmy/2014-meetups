@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome To Javascript.my</title>
+    <meta charset="utf-8">
+    <script src="static/react.min.js"></script>
+    <script src="static/JSXTransformer.js"></script>
+</head>
+<body>
+<div id="todo"></div>
+
+<script type="text/jsx">
+/** @jsx React.DOM */
+
+TodoList = React.createClass({
+
+    render : function () {
+
+        return (
+            <div>
+                <h1>I am a TODO List!</h1>
+                <ul>
+                    <li>Item Number 1</li>
+                    <li>Item Number 2</li>
+                    <li>Item Number 3</li>
+                </ul>
+            </div>
+        );
+    }
+});
+
+React.renderComponent(
+    <TodoList />,
+    document.getElementById('todo')
+);
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome To Javascript.my</title>
+    <meta charset="utf-8">
+    <script src="static/react.min.js"></script>
+    <script src="static/JSXTransformer.js"></script>
+</head>
+<body>
+<div id="todo"></div>
+
+<script type="text/jsx">
+/** @jsx React.DOM */
+
+TodoList = React.createClass({
+
+    getInitialState : function () {
+        return { todo : [ 'Item1', 'Item2' ] }; 
+    },
+
+    render : function () {
+        var todoList;
+
+        todoList = this.state.todo.map(function (item) {
+            return <li>{item}</li>;
+        });
+
+        return (
+            <div>
+                <h1>I am a TODO List!</h1>
+                <ul>
+                    {todoList}
+                </ul>
+                <TodoForm />
+            </div>
+        );
+    }
+});
+
+TodoForm = React.createClass({
+    handleKeyDown : function (event) {
+        var newTodo;
+
+        if (event.which !== 13 /* ENTER_KEY */) {
+            return;
+        }
+
+        newTodo = this.refs.newTodo.getDOMNode().value.trim();
+
+        if (newTodo) {
+            alert(newTodo);
+        }
+
+        this.refs.newTodo.getDOMNode().value = '';
+
+        return false;
+    },
+
+    render : function () {
+        return (
+            <form>
+                <input ref="newTodo" onKeyDown={this.handleKeyDown} type="text" placeholder="Add a todo here and press ENTER" />
+            </form>
+        );
+    }
+});
+
+React.renderComponent(
+    <TodoList />,
+    document.getElementById('todo')
+);
+</script>
+</body>
+</html>
